@@ -49,7 +49,6 @@ odoo.define("dms.fields_path", function(require) {
                 _.clone(path).reverse(),
                 function(index, element) {
                     text_width_measure += element.name + "/";
-                    console.log(text_width_measure);
                     if (text_width_measure.length >= this.max_width) {
                         this.$el.prepend($("<span/>").text(".."));
                     } else if (index === 0) {
