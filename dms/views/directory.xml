@@ -456,7 +456,7 @@
                             />
                         </group>
                         <group>
-                            <field name="inherit_groups"/>
+                            <field name="inherit_groups" />
                             <field
                                 name="parent_id"
                                 options="{'no_quick_create': True}"
