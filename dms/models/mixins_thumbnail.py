@@ -15,9 +15,7 @@ class Thumbnail(models.AbstractModel):
     _description = "Thumbnail Mixin"
 
     custom_thumbnail = fields.Binary(
-        string="Custom Thumbnail",
-        attachment=False,
-        prefetch=False,
+        string="Custom Thumbnail", attachment=False, prefetch=False,
     )
     custom_thumbnail_medium = fields.Binary(
         "Medium Custom Thumbnail",
@@ -87,10 +85,10 @@ class Thumbnail(models.AbstractModel):
                 record.custom_thumbnail_small = False
             else:
                 resized_images = tools.image_get_resized_images(
-                    record.custom_thumbnail, return_big=True,
-                    avoid_resize_medium=True)
-                record.custom_thumbnail_medium = resized_images['image_medium']
-                record.custom_thumbnail_small = resized_images['image_small']
+                    record.custom_thumbnail, return_big=True, avoid_resize_medium=True
+                )
+                record.custom_thumbnail_medium = resized_images["image_medium"]
+                record.custom_thumbnail_small = resized_images["image_small"]
 
     @api.depends("custom_thumbnail")
     def _compute_thumbnail(self):
@@ -102,6 +100,7 @@ class Thumbnail(models.AbstractModel):
                     "original", record._get_thumbnail_placeholder_name()
                 )
             resized_images = tools.image_get_resized_images(
-                record.thumbnail, return_big=True, avoid_resize_medium=True)
-            record.thumbnail_medium = resized_images['image_medium']
-            record.thumbnail_small = resized_images['image_small']
+                record.thumbnail, return_big=True, avoid_resize_medium=True
+            )
+            record.thumbnail_medium = resized_images["image_medium"]
+            record.thumbnail_small = resized_images["image_small"]

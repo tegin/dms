@@ -365,8 +365,9 @@ class File(models.Model):
                 record.content = record.with_context(context).content_file
             elif record.content_binary:
                 record.content = (
-                    record.content_binary if bin_size else
-                    base64.b64encode(record.content_binary)
+                    record.content_binary
+                    if bin_size
+                    else base64.b64encode(record.content_binary)
                 )
 
     @api.depends("content_binary", "content_file")
@@ -430,15 +431,15 @@ class File(models.Model):
     @api.model
     def _get_directories_from_database(self, file_ids):
         if not file_ids:
-            return self.env['dms.directory']
-        sql_query = '''
+            return self.env["dms.directory"]
+        sql_query = """
             SELECT directory_id
             FROM dms_file
             WHERE id in %s;
-        '''
+        """
         self.env.cr.execute(sql_query, (tuple(fid for fid in file_ids),))
-        result = set(val[0] for val in self.env.cr.fetchall())
-        return self.env['dms.directory'].browse(result)
+        result = {val[0] for val in self.env.cr.fetchall()}
+        return self.env["dms.directory"].browse(result)
 
     @api.model
     def _read_group_process_groupby(self, gb, query):
@@ -487,9 +488,7 @@ class File(models.Model):
             return records
         directories = self._get_directories_from_database(records.ids)
         for directory in directories - directories._filter_access("read"):
-            records -= self.browse(
-                directory.sudo(SUPERUSER_ID).mapped("file_ids").ids
-            )
+            records -= self.browse(directory.sudo(SUPERUSER_ID).mapped("file_ids").ids)
         return records
 
     def check_access(self, operation, raise_exception=False):

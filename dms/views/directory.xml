@@ -342,7 +342,6 @@
                         </div>
                     </t>
                 </templates>
-
                 <searchpanel>
                     <field
                         name="parent_id"

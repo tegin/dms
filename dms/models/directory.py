@@ -85,8 +85,10 @@ class DmsDirectory(models.Model):
         copy=False,
     )
     is_hidden = fields.Boolean(
-        string="Storage is Hidden", related="storage_id.is_hidden",
-        readonly=True, search='_search_is_hidden',
+        string="Storage is Hidden",
+        related="storage_id.is_hidden",
+        readonly=True,
+        search="_search_is_hidden",
     )
     company_id = fields.Many2one(
         related="storage_id.company_id",
@@ -193,7 +195,7 @@ class DmsDirectory(models.Model):
 
     @api.model
     def _search_is_hidden(self, operator, value):
-        return [('storage_id.is_hidden', operator, value)]
+        return [("storage_id.is_hidden", operator, value)]
 
     @api.depends("name", "complete_name")
     def _compute_display_name(self):

@@ -267,7 +267,6 @@
                         </div>
                     </t>
                 </templates>
-
                 <searchpanel>
                     <field
                         name="directory_id"
