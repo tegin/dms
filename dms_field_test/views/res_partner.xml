@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="res_partner_form_view">
+        <field name="name">res.partner.form (in dms_field_test)</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button
+                    name="generate_dms_directory"
+                    string="Generate DMS"
+                    type="object"
+                    icon="fa-folder-open"
+                    attrs="{'invisible': [('directory_id', '!=', False)]}"
+                />
+            </xpath>
+            <notebook position="inside">
+                <page
+                    name="dms_data"
+                    string="DMS"
+                    attrs="{'invisible': [('directory_id', '=', False)]}"
+                >
+                    <field name="directory_id" />
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>
