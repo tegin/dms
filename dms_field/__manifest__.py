@@ -10,6 +10,6 @@
     "author": "Creu Blanca,Odoo Community Association (OCA)",
     "website": "https://gihub.com/OCA/dms",
     "depends": ["dms"],
-    "data": [],
+    "data": ["views/assets.xml"],
     "demo": [],
 }

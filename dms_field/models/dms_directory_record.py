@@ -29,6 +29,10 @@ class DmsDirectoryRecord(models.AbstractModel):
             )
         return vals
 
+    def get_directory_data(self):
+        self.ensure_one()
+        return self.directory_id._get_child_directory_data()
+
     def generate_dms_directory(self):
         for record in self:
             if record.directory_id:
