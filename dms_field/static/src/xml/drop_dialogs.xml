@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+
+	<t t-name="muk_dms.DocumentDropFileDialog">
+    	<div class="mk_dropdialog">
+        	<form t-att-action="url" class="dropzone" id="mk_document_replace">
+				<div class="fallback">
+			    	<input name="file" type="file" />
+			  	</div>
+			  	<input type="hidden" name="csrf_token" t-att-value="csrf_token"/>
+			</form>
+        </div>
+    </t>
+    
+    <t t-name="muk_dms.DocumentDropFilesDialog">
+    	<div class="mk_dropdialog">
+        	<form t-att-action="url" class="dropzone" id="mk_document_upload">
+				<div class="fallback">
+			    	<input name="file" type="file" />
+			  	</div>
+			  	<input type="hidden" name="csrf_token" t-att-value="csrf_token"/>
+			</form>
+        </div>
+    </t>
+    
+</templates>
