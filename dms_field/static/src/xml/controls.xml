@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+
+	<t t-name="dms.DocumentTreeViewButtons">
+    	<div class="o_list_buttons">
+			<button accesskey="O" class="mk_open btn btn-sm btn-primary"
+                    type="button">
+	         	<i class="fa fa-external-link"></i>
+                <span>Open</span>
+	         </button>
+            <button accesskey="C" class="mk_create btn btn-sm btn-secondary"
+                    type="button">
+	         	<i class="fa fa-plus-circle"></i>
+                <span>Create</span>
+	         </button>
+            <button accesskey="E" class="mk_edit btn btn-sm btn-secondary"
+                    type="button">
+	         	<i class="fa fa-pencil-square-o"></i>
+                <span>Edit</span>
+	         </button>
+            <button accesskey="D" class="mk_delete btn btn-sm btn-secondary"
+                    type="button">
+	         	<i class="fa fa-trash-o"></i>
+                <span>Delete</span>
+	         </button>
+        </div>
+    </t>
+
+    <t t-name="dms.DocumentTreeViewActions">
+		<span class="btn-group btn-group-sm d-none d-sm-inline-flex">
+	        <button type="button"
+                    class="mk_action_help fa fa-question btn btn-secondary"
+                    data-toggle="tooltip" data-placement="bottom"
+                    title="Show Help"/>
+		</span>
+        <span class="btn-group btn-group-sm d-none d-sm-inline-flex">
+	        <button type="button"
+                    class="mk_refresh fa fa-refresh btn btn-secondary"
+                    data-toggle="tooltip" data-placement="bottom"
+                    title="Refresh"/>
+		</span>
+	</t>
+
+
+</templates>
