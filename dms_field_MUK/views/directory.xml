@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+<record id="view_dms_directory_kanban" model="ir.ui.view">
+	<field name="name">dms_directory.kanban</field>
+	<field name="model">dms.directory</field>
+    <field name="inherit_id" ref="dms.view_dms_directory_kanban"/>
+	<field name="arch" type="xml">
+ 		<xpath expr="//div[contains(@class, 'mk_directory_kanban_views')]//h6" position="after">
+			<a type="object" name="action_open_documents_view" role="menuitem" class="dropdown-item">
+				<i class="fa fa-sitemap" /> Open View
+			</a>
+		</xpath>
+	</field>
+</record>
+
+<record id="view_dms_directory_form" model="ir.ui.view">
+	<field name="name">dms_directory.form</field>
+	<field name="model">dms.directory</field>
+    <field name="inherit_id" ref="dms.view_dms_directory_form"/>
+	<field name="arch" type="xml">
+ 		<xpath expr="//div[@name='button_box']//button[@name='toggle_starred']" position="before">
+			<button  icon="fa-sitemap" class="oe_stat_button" string="Open View"
+				 type="object" name="action_open_documents_view" />
+		</xpath>
+	</field>
+</record>
+		
+</odoo>
