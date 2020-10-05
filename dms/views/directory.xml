@@ -474,9 +474,19 @@
                         </group>
                     </group>
                     <group>
+                        <field name="storage_id_save_type" invisible="True" />
+                        <field
+                            name="res_model"
+                            attrs="{'invisible': [('storage_id_save_type', '!=', 'attachment')], 'readonly': [('count_total_files', '>', 0)]}"
+                        />
+                        <field
+                            name="res_id"
+                            readonly="True"
+                            attrs="{'invisible': [('storage_id_save_type', '!=', 'attachment')]}"
+                        />
                         <field
                             name="record_ref"
-                            attrs="{'invisible': [('file_ids', '=', [])]}"
+                            attrs="{'invisible': [('storage_id_save_type', '!=', 'attachment')]}"
                         />
                     </group>
                     <notebook>

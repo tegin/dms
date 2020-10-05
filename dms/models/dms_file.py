@@ -158,9 +158,32 @@ class File(models.Model):
         ondelete="cascade",
     )
 
+    res_model = fields.Char(string="Res model")
+
+    res_id = fields.Integer(string="Res id")
+
     record_ref = fields.Reference(
-        string="Record Referenced", selection="_select_reference", readonly=True,
+        string="Record Referenced",
+        compute="_compute_record_ref",
+        selection=[],
+        readonly=True,
+        store=False,
     )
+
+    storage_id_save_type = fields.Char(
+        compute="_compute_storage_id_save_type", store=False
+    )
+
+    @api.depends("storage_id")
+    def _compute_storage_id_save_type(self):
+        for record in self:
+            record.storage_id_save_type = record.storage_id.save_type
+
+    @api.depends("res_model", "res_id")
+    def _compute_record_ref(self):
+        for record in self:
+            if record.res_model and record.res_id:
+                record.record_ref = "{},{}".format(record.res_model, record.res_id)
 
     # ----------------------------------------------------------
     # Helper
@@ -182,11 +205,9 @@ class File(models.Model):
                 "size": binary and len(binary) or 0,
             }
         )
-        if self.storage_id.save_type == "file":
+        if self.storage_id.save_type in ["file", "attachment"]:
             new_vals["content_file"] = self.content
-        elif self.storage_id.save_type == "attachment":
-            new_vals["attachment_id"] = self.content
-        elif self.storage_id.save_type == "database":
+        else:
             new_vals["content_binary"] = self.content and binary
         return new_vals
 
@@ -496,7 +517,7 @@ class File(models.Model):
         file_ids = set(result)
         directories = self._get_directories_from_database(result)
         for directory in directories - directories._filter_access("read"):
-            file_ids -= set(directory.sudo(SUPERUSER_ID).mapped("file_ids").ids)
+            file_ids -= set(directory.sudo().mapped("file_ids").ids)
         return len(file_ids) if count else list(file_ids)
 
     def _filter_access(self, operation):
@@ -505,7 +526,7 @@ class File(models.Model):
             return records
         directories = self._get_directories_from_database(records.ids)
         for directory in directories - directories._filter_access("read"):
-            records -= self.browse(directory.sudo(SUPERUSER_ID).mapped("file_ids").ids)
+            records -= self.browse(directory.sudo().mapped("file_ids").ids)
         return records
 
     def check_access(self, operation, raise_exception=False):
@@ -587,41 +608,28 @@ class File(models.Model):
                 self.browse(ids).write(dict(vals))
 
     def _create_model_attachment(self, vals):
-
         if "default_directory_id" in self._context:
             default_directory_id = (
                 self.env["dms.directory"]
-                .with_user(SUPERUSER_ID)
+                .sudo()
                 .browse(self._context["default_directory_id"])
             )
-
             vals["directory_id"] = default_directory_id.id
-
-        directory_id = (
-            self.env["dms.directory"]
-            .with_user(SUPERUSER_ID)
-            .browse(vals["directory_id"])
-        )
-
-        if directory_id and directory_id.record_ref:
-
-            if directory_id.record_ref:
-                model_name = directory_id.record_ref._name
-                model_id = directory_id.record_ref.id
-
-                attachment_id = self.env["ir.attachment"].create(
-                    {
-                        "name": vals["name"],
-                        "datas": vals["content"],
-                        "res_model": model_name,
-                        "res_id": model_id,
-                        "dms_file": True,
-                    }
-                )
-
-                vals["attachment_id"] = attachment_id.id
-                vals["record_ref"] = "{},{}".format(model_name, model_id)
-                del vals["content"]
+        directory_id = self.env["dms.directory"].sudo().browse(vals["directory_id"])
+        if directory_id and directory_id.res_model and directory_id.res_id:
+            attachment_id = self.env["ir.attachment"].create(
+                {
+                    "name": vals["name"],
+                    "datas": vals["content"],
+                    "res_model": directory_id.res_model,
+                    "res_id": directory_id.res_id,
+                    "dms_file": True,
+                }
+            )
+            vals["attachment_id"] = attachment_id.id
+            vals["res_model"] = attachment_id.res_model
+            vals["res_id"] = attachment_id.res_id
+            del vals["content"]
 
     def copy(self, default=None):
         self.ensure_one()
@@ -651,9 +659,8 @@ class File(models.Model):
 
     @api.model
     def create(self, vals):
-        if "record_ref" not in vals:
+        if "res_model" not in vals and "res_id" not in vals:
             self._create_model_attachment(vals)
-
         return super(File, self).create(vals)
 
     # ----------------------------------------------------------
@@ -704,7 +711,3 @@ class File(models.Model):
                 )
             else:
                 record.update({"is_locked": False, "is_lock_editor": False})
-
-    def _select_reference(self):
-        model_ids = self.env["ir.model"].search([])
-        return [(r["model"], r["name"]) for r in model_ids] + [("", "")]
