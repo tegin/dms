@@ -432,6 +432,7 @@ odoo.define("dms.DmsTreeRenderer", function(require) {
             this.trigger_up("dms_empty_storages", {data: data});
             var context = {
                 default_res_id: data.res_id,
+                default_res_model: data.model,
                 default_storage_ids: [],
             };
             _.each(data.empty_storages, function(storage) {
