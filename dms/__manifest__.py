@@ -8,12 +8,12 @@
     "category": "Document Management",
     "license": "LGPL-3",
     "website": "http://github.com/OCA/dms",
-    "author": "MuK IT, Tecnativa, Odoo Community Association (OCA)",
+    "author": "MuK IT,Odoo Community Association (OCA)",
     "depends": [
         "web_drop_target",
         "mail",
         "web_view_searchpanel",
-        "http_routing",
+        "http_routing" "mail_preview_base",
         "portal",
     ],
     "data": [
