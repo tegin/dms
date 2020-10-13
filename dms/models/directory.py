@@ -194,6 +194,33 @@ class DmsDirectory(models.Model):
                 """,
     )
 
+    res_model = fields.Char(string="Res model")
+
+    res_id = fields.Integer(string="Res id")
+
+    record_ref = fields.Reference(
+        string="Record Referenced",
+        compute="_compute_record_ref",
+        selection=[],
+        readonly=True,
+        store=False,
+    )
+
+    storage_id_save_type = fields.Char(
+        compute="_compute_storage_id_save_type", store=False
+    )
+
+    @api.depends("storage_id")
+    def _compute_storage_id_save_type(self):
+        for record in self:
+            record.storage_id_save_type = record.storage_id.save_type
+
+    @api.depends("res_model", "res_id")
+    def _compute_record_ref(self):
+        for record in self:
+            if record.res_model and record.res_id:
+                record.record_ref = "{},{}".format(record.res_model, record.res_id)
+
     def _compute_access_url(self):
         for record in self:
             record.access_url = "/my/dms/directory/{}".format(record.id)
