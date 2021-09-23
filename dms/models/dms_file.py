@@ -10,7 +10,7 @@ import logging
 from collections import defaultdict
 
 from odoo import _, api, fields, models, tools
-from odoo.exceptions import ValidationError
+from odoo.exceptions import CacheMiss, ValidationError
 from odoo.osv import expression
 from odoo.tools import consteq, human_size
 from odoo.tools.mimetypes import guess_mimetype
@@ -380,7 +380,11 @@ class File(models.Model):
     @api.depends("content")
     def _compute_mimetype(self):
         for record in self:
-            record.res_mimetype = guess_mimetype(base64.b64decode(record.content or ""))
+            try:
+                content = record.content
+            except CacheMiss:
+                content = False
+            record.res_mimetype = guess_mimetype(base64.b64decode(content or ""))
 
     @api.depends("content_binary", "content_file", "attachment_id")
     def _compute_content(self):
