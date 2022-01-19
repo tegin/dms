@@ -361,6 +361,8 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box" />
+                    <widget name="web_ribbon" title="Shared" bg_color="bg-info" attrs="{'invisible': [('access_token', '=', False)]}"/>
+                    <field name="access_token" invisible="1"/>
                     <field
                         name="image_1920"
                         widget="image"
