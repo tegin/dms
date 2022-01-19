@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<templates id="template_web_editor" inherit_id="web_editor.template">
+
+    <t t-extend="wysiwyg.widgets.media">
+        <t t-jquery="ul.nav" t-operation="append">
+           <li t-if="!widget.options.noDms" class="nav-item"><a
+                    t-attf-class="nav-link #{widget.isDmsActive() ? 'active' : ''}"
+                    id="editor-media-dms-tab"
+                    data-toggle="tab"
+                    href="#editor-media-dms"
+                    aria-controls="editor-media-dms"
+                    t-att-aria-selected="widget.isDmsActive().toString()"
+                    role="tab"
+                >DMS</a></li>
+        </t>
+        <t t-jquery="div.tab-content" t-operation="append">
+            <div
+                t-if="!widget.options.noDms"
+                t-attf-class="tab-pane fade #{widget.isDmsActive() ? 'show active': ''}"
+                id="editor-media-dms"
+                role="tabpanel"
+                aria-labelledby="editor-media-dms-tab"
+            />
+        </t>
+    </t>
+
+    <t t-name="wysiwyg.widgets.dms.file">
+        <form>
+            <div class="form-inline align-items-center py-4">
+                <div class="btn-group">
+                    <button
+                        type="button"
+                        class="btn btn-primary o_search_dms_field_pop_up"
+                    >
+                        <t t-esc="uploadText" />
+                    </button>
+                </div>
+            </div>
+            <div class="o_view_nocontent">
+                 <div class="o_nocontent_help">
+                    <p
+                        class="o_view_nocontent_smiling_face"
+                    >Search and select a DMS file</p>
+                    <p
+                        class="o_empty_folder_subtitle"
+                    >You can upload files with the button located in the top left of the screen.</p>
+                </div>
+            </div>
+        </form>
+    </t>
+
+    <t t-name="wysiwyg.widgets.dms">
+         <t t-call="wysiwyg.widgets.dms.file">
+            <t t-set="uploadText">Search file</t>
+        </t>
+    </t>
+
+</templates>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template
+        id="assets_media_dialog_dms"
+        name="Wysiwyg Editor Assets"
+        inherit_id="web.assets_common"
+    >
+        <xpath expr="script[last()]" position="after">
+             <script
+                type="text/javascript"
+                src="/dms_media_dialog/static/src/js/media.js"
+            />
+            <script
+                type="text/javascript"
+                src="/dms_media_dialog/static/src/js/media_dialog.js"
+            />
+            <link
+                rel="stylesheet"
+                href="/dms_media_dialog/static/src/scss/mimetypes.scss"
+            />
+        </xpath>
+    </template>
+</odoo>
