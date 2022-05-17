@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 CreuBlanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="dms_file_form_view">
+        <field name="name">dms.file.form (in dms_action)</field>
+        <field name="model">dms.file</field>
+        <field name="inherit_id" ref="dms.view_dms_file_form" />
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button
+                    name="action_execute_action"
+                    type="object"
+                    icon="fa-play"
+                    string="Play action"
+                />
+            </header>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_dms_file_kanban">
+        <field name="name">dms.file.form (in dms_action)</field>
+        <field name="model">dms.file</field>
+        <field name="inherit_id" ref="dms.view_dms_file_kanban" />
+        <field name="arch" type="xml">
+            <!--<xpath expr="//div[hasclass('o_kanban_image')]" position="before">
+
+                <div class="mk_file_kanban_actions">
+                    <div class="mk_file_kanban_actions_wrapper">
+                        <a
+                            type="object"
+                            name="action_execute_action"
+                            role="button"
+                            class="btn btn-sm btn-outline-primary mk_directory_kanban_directories"
+                            title="Play action"
+                        >
+                        <i class="fa fa-lg fa-play" />
+                        </a>
+                    </div>
+                </div>
+            </xpath>-->
+            <xpath expr="//a[@name='lock']" position="after">
+                <field name="action_button" widget="dms_action_button" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

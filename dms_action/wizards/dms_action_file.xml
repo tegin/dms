@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 CreuBlanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="dms_action_file_form_view">
+        <field name="name">dms.action.file.form (in dms_action)</field>
+        <field name="model">dms.action.file</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="dms_file_id" invisible="1" />
+                    <field name="dms_directory_id" invisible="1" />
+                    <field
+                        nolabel="1"
+                        name="dms_action_id"
+                        domain="[('dms_directory_ids', 'in', dms_directory_id)]"
+                        widget="dms_action"
+                    />
+                </group>
+                <footer>
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="dms_action_file_act_window">
+        <field name="name">Play Action</field>
+        <field name="res_model">dms.action.file</field>
+        <field name="view_mode">form</field>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+
+
+</odoo>
