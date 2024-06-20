@@ -11,6 +11,7 @@
     "website": "https://github.com/OCA/dms",
     "depends": ["dms"],
     "data": [
+        "views/dms_directory_template.xml",
         "wizards/dms_add_directory_record.xml",
         "templates/assets.xml",
         "views/dms_storage.xml",
