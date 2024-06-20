@@ -32,6 +32,14 @@
             <field name="model_ids" position="attributes">
                 <attribute name="attrs">{'invisible': 0}</attribute>
             </field>
+            <div name="button_box" position="inside">
+                <button
+                    name="action_view_dms_storage_template"
+                    type="object"
+                    icon="fa-cog"
+                    string="Template"
+                />
+            </div>
             <field name="model_ids" position="after">
                 <field
                     name="field_default_group_id"

@@ -10,6 +10,24 @@ class DmsStorage(models.Model):
 
     field_default_group_id = fields.Many2one("dms.access.group")
 
+    directory_template_id = fields.Many2one(
+        "dms.directory.template",
+        string="Storage DMS Template",
+    )
+
+    def action_view_dms_storage_template(self):
+        self.ensure_one()
+        return {
+            "name": "DMS Directory Template",
+            "type": "ir.actions.act_window",
+            "res_model": "dms.directory.template",
+            "view_mode": "tree,form",
+            "context": {
+                "default_storage_id": self.id,
+            },
+            "domain": [("storage_id", "=", self.id)],
+        }
+
     @api.model
     def _build_documents_storage(self, storage):
         storage_directories = []

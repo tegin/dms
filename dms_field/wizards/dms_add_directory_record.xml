@@ -15,6 +15,7 @@
                         widget="selection"
                     />
                     <field name="storage_ids" invisible="1" />
+                    <field name="with_default_dms_structure" />
                 </group>
             </form>
         </field>

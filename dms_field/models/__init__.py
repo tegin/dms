@@ -3,3 +3,4 @@ from . import ir_ui_view
 from . import dms_storage
 from . import dms_directory
 from . import base
+from . import dms_directory_template

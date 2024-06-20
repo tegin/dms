@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2024 CreuBlanca
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="dms_directory_template_form_view">
+        <field name="name">dms.directory.template.form (in dms_field)</field>
+        <field name="model">dms.directory.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <!-- TODO -->
+                </header>
+                <sheet>
+                    <!-- TODO -->
+                    <group>
+                        <field name="name" />
+                        <field
+                            name="parent_id"
+                            domain="[('storage_id','=',context.get('default_storage_id', False))]"
+                        />
+                        <field name="storage_id" invisible="1" />
+                        <field
+                            name="child_ids"
+                            context="{'default_storage_id': storage_id, 'default_parent_id': id}"
+                        >
+                            <tree>
+                                <field name="name" />
+                                <field name="storage_id" />
+                            </tree>
+                            <form
+                                context="{'default_storage_id': storage_id, 'default_parent_id': id}"
+                            >
+                            <group>
+                                    <field name="name" />
+                                    <field name="parent_id" />
+                                    <field name="storage_id" invisible="0" />
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                </sheet>
+                <div class="oe_chatter" />
+            </form>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="dms_directory_template_tree_view">
+        <field name="name">dms.directory.template.tree (in dms_field)</field>
+        <field name="model">dms.directory.template</field>
+        <field name="arch" type="xml">
+            <tree>
+                <!-- TODO -->
+                <field name="complete_name" />
+                <field name="storage_id" invisible="1" />
+            </tree>
+        </field>
+    </record>
+
+</odoo>
